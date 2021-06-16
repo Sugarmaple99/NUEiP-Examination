@@ -1,0 +1,246 @@
+//使用語言 : JAVA
+
+    {
+    /***************物件導向-繼承/介面*****************/
+        public  class Transportation {
+            public String color;
+            public double speed = 0;
+            public int tiresNum = 0;
+
+            void setTransportation(String color, double speed, int tiresNum) {
+                this.color = color;
+                this.tiresNum = tiresNum;   
+            }
+            void access(String color, double speed, int tiresNum) {
+                this.color = color;
+                this.speed = speed;
+                this.tiresNum = tiresNum;
+            }
+            void run() {
+                System.out.println("該交通工具顏色為:" + this.color + "速度為" + this.speed + "輪胎數量為" + this.tiresNum);
+            }
+        }
+
+        public class Car extends Vehicle {
+            int loader;
+            void access(String brand, String color, double speed, int loader, int tiresNum) {
+                this.brand = brand;
+                this.color = color;
+                this.speed = speed;
+                this.loader = loader;
+                this.tiresNum = tiresNum;
+            }
+            void run() {
+                System.out.println("該汽車的品牌為：" + this.brand + "顏色為" + this.color + "速度為" + this.speed + "輪胎數量為" + this.tiresNum + "核載人數" + this.loader);
+            }
+        }
+
+        public class Motor extends Vehicle {
+            int loader;
+            void access(String brand,String color,int loader, int tiresNum) {
+                this.brand=brand;
+                this.color=color;
+                this.loader=loader;
+                this.tiresNum = tiresNum;
+            }
+            void run() {
+                System.out.println("該汽車的品牌為：" + this.brand + "顏色為" + this.color + "輪胎數量為" + this.tiresNum + "核載人數" + this.loader);
+            }
+        }
+
+    }
+    /****************************************************************/
+    {
+    /***************資料處理-字串*****************/
+        String sample = "人易科技:上 機 測 驗 - 演算法";
+        char fullChar = (char)((int)sample.charAt(sample.indexOf(":")) + 65248);
+
+        String ans1 = sample.replace(':', fullChar); //第一題答案
+
+        String tmp = sample.substring(0, sample.indexOf("驗"));
+        String tmp2 = sample.substring(sample.indexOf("驗"));
+
+        String ans2 = tmp.replace(" ", "") + tmp2; //第二題答案
+
+        String tmp3 = ans1.substring(ans1.indexOf("：") + 1, ans1.indexOf("-"));
+        char[] ch = new char[tmp3.length()];
+        for (int i = 0; i < tmp3.length(); i++) {
+            ch[i] = tmp3.charAt(i);
+            System.out.println(ch[i]); //第三題答案
+        }
+   }
+
+    /***************************************************************/
+    {
+    /***************資料處理-陣列*****************/
+        int[] data = {0, 1, 2, 3, 4, 5, 6, 7 ,8 ,9};
+        int oddSum = 0, evenSum = 0;
+        for(int i = 0; i < data.length; i++) {
+            if(data[i] % 2 == 0) {
+                evenSum += data[i];
+            } else {
+                oddSum += data[i];
+            }
+        }
+        int result = oddSum - evenSum;//第一題答案
+
+        int oddArray[] = new int[data.length / 2];
+        int evenArray[] = new int[data.length / 2];
+        int j = 0, g= 0;
+        for(int i = 0; i < data.length; i++) {
+            if(data[i] % 2 == 0) {
+                evenArray[j] = data[i]; //第二題答案的第一個陣列
+                j++;
+            } else {
+                oddArray[g] = data[i]; //第二題答案的第二個陣列
+                g++;
+            }
+        }
+    }
+    
+    /***************************************************************/
+    {
+    /***************資料排序-正序*****************/
+        int[] array = {77, 5, 5, 22, 13, 55, 97, 4, 796, 1, 0, 9};
+        int length = array.length;
+        int lengthDec = length - 1;
+        int[] result = new int[length];
+     
+        int width = 1;
+     
+        while (width < length) {
+            int doubleWidth = width << 1;     
+            int e = lengthDec - width;
+     
+            for (int i = 0; i <= e; i += doubleWidth) {
+                int end = i + doubleWidth - 1;
+     
+                if (end > lengthDec) {
+                    end = lengthDec;
+                }
+     
+                int middle = i + width;
+                int ls = i;
+                int le = middle - 1;
+                int rs = middle;
+                int re = end;
+                int p = i;
+     
+                while (ls <= rs && rs <= re) {
+                    result[p++] = array[ls] < array[rs] ? array[ls++] : array[rs++];
+                }
+     
+                while (ls <= le) {
+                    result[p++] = array[ls++];
+                }
+     
+                while (rs <= re) {
+                    result[p++] = array[rs++];
+                }
+     
+                System.arraycopy(result, i, array, i, end - i + 1);
+            }
+     
+            width = doubleWidth;
+        }
+    }
+    
+    /************************邏輯處理-交集***************************************/
+    
+    {
+        int[] array1 = {77, 5, 5, 22, 13, 55, 97, 4, 796, 1, 0, 9};
+        int[] array2 = {0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9};
+        /*             {0, 1, 4, 5, 5, 9, 13, 22, 55, 77, 97, 796}*/
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(array1);
+        Arrays.sort(array2);
+        int i = 0, j = 0;
+        while(i < array1.length && j < array2.length)
+        {
+            if(array1[i] < array2[j]) {
+                i++;
+            } else if(array1[i] > array2[j]) {
+                j++;   
+            } else {
+                list.add(array1[i]);
+                i++;
+                j++;
+                while (i < array1.length && array1[i] == array1[i-1])
+                    i++;
+                while (j < array2.length && array2[j] == array2[j-1])
+                    j++;   
+            }
+        }
+        int[] result = new int[list.size()];
+        for(int k = 0; k < list.size(); k++) {
+            result[k] = list.get(k);
+        }           
+    }
+    
+    /************************邏輯處理-差集***************************************/
+    {
+        int[] array1 = {77, 5, 5, 22, 13, 55, 97, 4, 796, 1, 0, 9};
+        int[] array2 = {0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9};
+        Set<Integer> set = new HashSet<Integer>();
+        if(array1.length > array2.length) {
+            for(int i = 0; i < array1.length; i++){
+              set.add(array1[i]);
+           }
+        } else {
+            for(int i = 0; i < array2.length; i++){
+              set.add(array2[i]);
+           }
+        }
+
+        for (Integer i : array1.length > array2.length ? array2 : array1)
+        {
+            if (set.contains(i))
+            {
+                set.remove(i);
+            } else
+            {
+                set.add(i);
+            }
+        }
+
+        Integer[] result = new Integer[set.size()];
+        set.toArray(result);
+    }
+
+    /************************邏輯處理-聯集***************************************/
+    {
+        int[] array1 = {77, 5, 5, 22, 13, 55, 97, 4, 796, 1, 0, 9};
+        int[] array2 = {0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9};
+        Set<Integer> set1 = new HashSet<Integer>(Arrays.asList(array1.length));
+        Set<Integer> set2 = new HashSet<Integer>(Arrays.asList(array2.length));
+
+        for(int i = 0; i < array1.length; i++) {
+            set1.add(array1[i]);
+        }
+        
+        for(int i = 0; i < array2.length; i++) {
+            set2.add(array2[i]);
+        }
+
+        set1.addAll(set2);
+
+        Integer[] result = new Integer[set1.size()];
+        set1.toArray(result);
+    }
+
+    /***************************兩數總和************************************/
+    {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+
+            for (int i = 0; i < nums.length; i++) {
+                int contain = target - nums[i];
+                if (map.containsKey(contain)) {
+                    int[] ans = {map.get(contain), i};
+                    return ans;
+                }
+                map.put(nums[i], i);              
+            }
+            throw new IllegalArgumentException("No Answer");
+        }
+    }
